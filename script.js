@@ -187,6 +187,7 @@ function drawSVG(goal_to_draw) {
 
         svg.transition()
             .duration(10000)
+            .ease(d3.easeLinear)
             .tween("year", tweenYear)
             //.each("end", enableInteraction);
 
