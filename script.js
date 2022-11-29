@@ -46,7 +46,8 @@ Promise.all([
     d3.csv('population-since-1800.csv'),
     d3.csv('cross-country-literacy-rates.csv'),
     d3.csv('child-deaths-igme-data.csv'),
-    d3.csv('malaria-death-rates.csv')
+    d3.csv('malaria-death-rates.csv'),
+    d3.csv('continents-according-to-our-world-in-data.csv')
 ]).then(function(files) {
     var index;
     files.forEach((csv,i) => {
@@ -82,7 +83,7 @@ Promise.all([
         }
     });
 
-    //console.log(data);
+    console.log(data);
     drawSVG(2);
 });
 
@@ -241,12 +242,13 @@ function drawSVG(goal_to_draw) {
             return nations.map(function (d) {
                 return {
                     country: d.country,
-                    region: d.region,
+                    region: d.Continent,
                     population: d.population ? interpolateValues(d.population, year) : 0,
                     literacy_rate: d.literacy_rate ? interpolateValues(d.literacy_rate, year) : 0,
                     malaria_deaths: d.malaria_deaths ? interpolateValues(d.malaria_deaths, year) : 0,
                     deaths_under_five: d.deaths_under_five ? interpolateValues(d.deaths_under_five, year) : 0,
-                    gdp: interpolateValues(d.gdp, year)
+                    gdp: interpolateValues(d.gdp, year),
+                    
                 };
             });
         }
