@@ -1,4 +1,4 @@
-Entity,Code,Year,Deaths - Malaria - Sex: Both - Age: Age-standardized (Rate)
+Entity,Code,Year,malaria_deaths
 Afghanistan,AFG,1990,0.83
 Afghanistan,AFG,1991,1.57
 Afghanistan,AFG,1992,1.75
