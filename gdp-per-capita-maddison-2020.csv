@@ -1,4 +1,4 @@
-Entity,Code,Year,GDP per capita,417485-annotations
+Entity,Code,Year,gdp,417485-annotations
 Afghanistan,AFG,1950,1156,
 Afghanistan,AFG,1951,1170,
 Afghanistan,AFG,1952,1189,
@@ -4225,46 +4225,6 @@ Dominican Republic,DOM,2015,13762,
 Dominican Republic,DOM,2016,14489,
 Dominican Republic,DOM,2017,15018.935546875,
 Dominican Republic,DOM,2018,15912.3994140625,
-East Asia,,1820,1088.5849609375,
-East Asia,,1850,899.6576538085938,
-East Asia,,1870,989.4771728515625,
-East Asia,,1900,1086.3284912109375,
-East Asia,,1920,1160,
-East Asia,,1930,1272.979248046875,
-East Asia,,1940,1361,
-East Asia,,1950,1121.6673583984375,
-East Asia,,1960,1735.4322509765625,
-East Asia,,1970,3042.225341796875,
-East Asia,,1980,4211.64404296875,
-East Asia,,1990,6121.29052734375,
-East Asia,,2000,8163.83935546875,
-East Asia,,2010,12853.4306640625,
-East Asia,,2016,15697.9365234375,
-East Asia,,2017,15956.3779296875,
-East Asia,,2018,16326.953125,
-Eastern Europe,,1820,818,
-Eastern Europe,,1830,942,
-Eastern Europe,,1840,907,
-Eastern Europe,,1850,985,
-Eastern Europe,,1860,1358,
-Eastern Europe,,1870,1575,
-Eastern Europe,,1880,1886,
-Eastern Europe,,1890,2204,
-Eastern Europe,,1900,2700,
-Eastern Europe,,1910,2282.571533203125,
-Eastern Europe,,1920,1342.734619140625,
-Eastern Europe,,1930,2463.720458984375,
-Eastern Europe,,1940,3209,
-Eastern Europe,,1950,4082.10302734375,
-Eastern Europe,,1960,5779.169921875,
-Eastern Europe,,1970,8241.357421875,
-Eastern Europe,,1980,9933.0390625,
-Eastern Europe,,1990,10343.8740234375,
-Eastern Europe,,2000,8985.5400390625,
-Eastern Europe,,2010,17021.2890625,
-Eastern Europe,,2016,19446.3515625,
-Eastern Europe,,2017,20115.830078125,
-Eastern Europe,,2018,20680.5859375,
 Ecuador,ECU,1870,760,
 Ecuador,ECU,1880,760,
 Ecuador,ECU,1890,893,
@@ -19511,66 +19471,6 @@ Vietnam,VNM,2015,5763,
 Vietnam,VNM,2016,6062,
 Vietnam,VNM,2017,6422.08642578125,
 Vietnam,VNM,2018,6814.14208984375,
-Western Europe,,1820,2306.966796875,
-Western Europe,,1830,2384.314453125,
-Western Europe,,1840,2579.534912109375,
-Western Europe,,1850,2678,
-Western Europe,,1860,3034,
-Western Europe,,1870,3301.304931640625,
-Western Europe,,1880,3585.154296875,
-Western Europe,,1890,4079.31396484375,
-Western Europe,,1900,4724.2958984375,
-Western Europe,,1910,5134.75927734375,
-Western Europe,,1920,4883.5390625,
-Western Europe,,1930,6409.10546875,
-Western Europe,,1940,7184.53076171875,
-Western Europe,,1950,7263.26171875,
-Western Europe,,1960,10973.8740234375,
-Western Europe,,1970,16161.4443359375,
-Western Europe,,1980,20950.23046875,
-Western Europe,,1990,25440.03515625,
-Western Europe,,2000,32536.306640625,
-Western Europe,,2010,37318.37109375,
-Western Europe,,2016,38511.33203125,
-Western Europe,,2017,39256.53125,
-Western Europe,,2018,39789.8984375,
-Western Offshoots,,1820,2513.04541015625,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,1850,3474.41015625,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,1860,4214.44091796875,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,1870,4647.4541015625,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,1880,6019.1240234375,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,1890,6480.95556640625,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,1900,7740.8505859375,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,1910,9354.69140625,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,1920,9741.4228515625,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,1930,10297.123046875,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,1940,11620.5009765625,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,1950,14773.2216796875,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,1960,17471.51171875,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,1970,23209.654296875,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,1980,28786.76171875,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,1990,35619.375,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,2000,44329.26953125,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,2010,48090.15234375,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,2016,51667.9765625,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,2017,52597.21875,"United States, Canada, Australia and New Zealand"
-Western Offshoots,,2018,53756.49609375,"United States, Canada, Australia and New Zealand"
-World,OWID_WRL,1820,1101.5654296875,
-World,OWID_WRL,1850,1225.0810546875,
-World,OWID_WRL,1870,1497.9822998046875,
-World,OWID_WRL,1900,2212.043212890625,
-World,OWID_WRL,1920,2241.16552734375,
-World,OWID_WRL,1940,3133.1982421875,
-World,OWID_WRL,1950,3350.56640625,
-World,OWID_WRL,1960,4385.7861328125,
-World,OWID_WRL,1970,5951.548828125,
-World,OWID_WRL,1980,7232.97314453125,
-World,OWID_WRL,1990,8222.478515625,
-World,OWID_WRL,2000,9914.5673828125,
-World,OWID_WRL,2010,13179.4951171875,
-World,OWID_WRL,2016,14700.3720703125,
-World,OWID_WRL,2017,14944.09375,
-World,OWID_WRL,2018,15212.4150390625,
 Yemen,YEM,1950,1452,
 Yemen,YEM,1951,1463,
 Yemen,YEM,1952,1473,
