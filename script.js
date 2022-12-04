@@ -122,7 +122,23 @@ function drawSVG(goal_to_draw) {
         .attr("dy", ".75em")
         .attr("transform", "rotate(-90)")
         .text("Goal");
+    
+    //add legends
+    svg.append("circle").attr("cx",750).attr("cy",150).attr("r", 6).style("fill", d3.schemeCategory10[0])
+    svg.append("circle").attr("cx",750).attr("cy",180).attr("r", 6).style("fill", d3.schemeCategory10[1])
+    svg.append("circle").attr("cx",750).attr("cy",210).attr("r", 6).style("fill", d3.schemeCategory10[2])
+    svg.append("circle").attr("cx",750).attr("cy",240).attr("r", 6).style("fill", d3.schemeCategory10[3])
+    svg.append("circle").attr("cx",750).attr("cy",270).attr("r", 6).style("fill", d3.schemeCategory10[4])
+    svg.append("circle").attr("cx",750).attr("cy",300).attr("r", 6).style("fill", d3.schemeCategory10[5])
+svg.append("text").attr("x", 770).attr("y", 150).text("Asia").style("font-size", "15px").attr("alignment-baseline","middle")
+svg.append("text").attr("x", 770).attr("y", 180).text("Europe").style("font-size", "15px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", 770).attr("y", 210).text("Africa").style("font-size", "15px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", 770).attr("y", 240).text("South America").style("font-size", "15px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", 770).attr("y", 270).text("Australia").style("font-size", "15px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", 770).attr("y", 300).text("North America").style("font-size", "15px").attr("alignment-baseline","middle")
 
+    
+    
     // Year Transition Label 
     var label = svg.append("text")
         .attr("class", "year label")
@@ -138,6 +154,7 @@ function drawSVG(goal_to_draw) {
         .text("");
     
     draw(data, goal_to_draw);
+
     
     function draw(nations, goal_id) {
         // choose right stat from the goal
@@ -170,7 +187,7 @@ function drawSVG(goal_to_draw) {
                 return tooltip.style("visibility", "visible");
             })
             .on("mousemove", function (d) {
-                tooltip.html(`<strong>Country:</strong> ${d.country}<br><strong>Population:</strong> ${d.population.toLocaleString()}<br><strong>${stat}:</strong> ${d[stat]}<br><strong>GDP:</strong> ${d.gdp}`);
+                tooltip.html(`<strong>Country:</strong> ${d.country}<br><strong>Population:</strong> ${d.population.toLocaleString()}<br><strong>${stat}:</strong> ${d[stat]}`);
                 return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
             })
             .on("mouseout", function (d) {
