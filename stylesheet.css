@@ -64,3 +64,13 @@ text {
     border-style: solid;
     border-color: #000000;
 }
+.column {
+    float: left;
+    width: 25%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
