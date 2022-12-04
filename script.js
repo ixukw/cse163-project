@@ -155,7 +155,6 @@ svg.append("text").attr("x", 770).attr("y", 180).text("Europe").style("font-size
     
     draw(data, goal_to_draw);
 
-    
     function draw(nations, goal_id) {
         // choose right stat from the goal
         var stat_names = ['','literacy_rate','','deaths_under_five','','malaria_deaths','',''];
