@@ -3,14 +3,22 @@
 var start_year = 1950;
 var end_year = 2015;
 
+// Y-Axis values
+var goal_str = ["", "Extreme Poverty Rate", "Literacy Rate (%)", "Gender Wage Gap", "Child Mortality/Year", "Maternal health",
+               "Deaths from Malaria", "Environmental Sustainability", "Global Partnership"]
+var goal_num = 2
+
 // Define Margin
-var margin = { top: 20, right: 20, bottom: 20, left: 40 },
+var margin = { top: 20, right: 20, bottom: 20, left: 64},
     width = 960 - margin.right - margin.left,
     height = 500 - margin.top - margin.bottom;
 
+var maxGDP = 50000,
+    maxYScale = 104;
+
 // Define X-Y Scale
-var xScale = d3.scaleLinear().domain([0, 50000]).range([0, width]),
-    yScale = d3.scaleLinear().domain([0, 100]).range([height, 0]);
+var xScale = d3.scaleLinear().domain([0, maxGDP]).range([0, width]),
+    yScale = d3.scaleLinear().domain([0, maxYScale]).range([height, 0]);
 
 // Define X-Y Axis
 
@@ -36,6 +44,7 @@ window.onload = function() {
     function changeGoal(event) {
         d3.select("div.svg").selectAll("*").remove();
         selection = event.currentTarget.id;
+        goal_num = event.currentTarget.id;
         drawSVG(event.currentTarget.id);
     }
 }
@@ -135,11 +144,9 @@ function drawSVG(goal_to_draw) {
     // Add Y-Axis label.
     svg.append("text")
         .attr("class", "y label")
-        .attr("text-anchor", "end")
-        .attr("y", 6)
-        .attr("dy", ".75em")
-        .attr("transform", "rotate(-90)")
-        .text("Goal");
+        .attr("y", -3)
+        .style("font", "24px times")
+        .text("Goal: " + goal_str[goal_num]);
     
     //add legends
     svg.append("circle").attr("cx",750).attr("cy",150).attr("r", 6).style("fill", d3.schemeCategory10[0])
@@ -172,16 +179,34 @@ svg.append("text").attr("x", 770).attr("y", 180).text("Europe").style("font-size
         .text("");
     
     draw(data, goal_to_draw);
+    
+    // Functions to update X,Y Axis
+    function updateX(newVal){
+        maxGDP = newVal;
+        xScale = d3.scaleLinear().domain([0, maxGDP]).range([0, width]);
+        xAxis = d3.axisBottom(xScale);
+        svg.select(".x.axis").call(xAxis);
+    }
+    function updateY(newVal){
+        maxYScale = newVal;
+        yScale = d3.scaleLinear().domain([0, maxYScale]).range([height, 0]);
+        yAxis = d3.axisLeft(yScale);
+        svg.select(".y.axis").call(yAxis);
+    }
 
     function draw(nations, goal_id) {
         // choose right stat from the goal
-        var stat_names = ['','literacy_rate','','deaths_under_five','','malaria_deaths','',''];
+        var stat_names = ['','literacy_rate','Gender_Pay_Gap','deaths_under_five','','malaria_deaths\year','',''];
         var stat = stat_names[goal_id-1];
         // Bisector - See API Reference > Core > Arrays. Look for d3.bisector
         var bisect = d3.bisector(function (d) {
             return d[0];
         }); 
-
+        
+        // Resets scale
+        updateX(50000);
+        updateY(104);
+        
         // Tooltip
 
         var tooltip = d3.select("body")
@@ -239,8 +264,30 @@ svg.append("text").attr("x", 770).attr("y", 180).text("Europe").style("font-size
         function position(dot) {
             dot.attr("cx", function (d) { return xScale(d.gdp); })
                 .attr("cy", function (d) { return yScale(d[stat]); })
-                .attr("r", function (d) { return Math.log(d.population); })
-        }
+                .attr("r", function (d) { 
+                    if (d[stat] > maxYScale){
+                        updateY(d[stat]);
+                    }
+                    if (d.gdp > maxGDP){
+                        updateX(d.gdp);
+                    }
+                    var ans = 0;
+                    if(d.population > 300000000){
+                        ans = Math.log2(d.population);
+                        if(d.population > 600000000){
+                            ans += 15;
+                        }
+                    } else if (d.population > 100000000){
+                        ans = Math.log(d.population);
+                    } else if (d.population > 70000000){
+                        ans = Math.log(d.population)/Math.log(3);
+                    } else if (d.population > 30000000){
+                        ans = Math.log(d.population)/Math.log(5);
+                    } else {
+                        ans = Math.log10(d.population);
+                    }
+                    return ans })
+                }
 
         function order(a, b) {
             return b.population - a.population;
