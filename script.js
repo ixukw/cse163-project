@@ -35,9 +35,27 @@ window.onload = function() {
     
     function changeGoal(event) {
         d3.select("div.svg").selectAll("*").remove();
+        selection = event.currentTarget.id;
         drawSVG(event.currentTarget.id);
     }
 }
+
+// search function by text box
+var searchCode = "ALL"
+var selection = "2"
+function search(){
+    searchCode = document.getElementById("searchBox").value;
+    if(searchCode == ""){
+        searchCode = "ALL";
+    }
+    console.log(searchCode)
+    
+    // draw
+    console.log(selection)
+    d3.select("div.svg").selectAll("*").remove();
+    drawSVG(selection);
+}
+
 // Parse data
 var data = [];
 
@@ -176,6 +194,17 @@ svg.append("text").attr("x", 770).attr("y", 180).text("Europe").style("font-size
             .data(interpolateData(start_year))
             .enter().append("circle")
             .attr("class", "dot")
+            .style("opacity", function(d){
+                if(searchCode == d.country){
+                    return 1;
+                }
+                else if(searchCode == "ALL"){
+                    return 1;
+                }
+                else{
+                    return 0.1;
+                }
+            })
             .style("fill", function (d) {
                 return color(d.region);
             })
