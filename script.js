@@ -4,7 +4,7 @@ var start_year = 1950;
 var end_year = 2015;
 
 // Y-Axis values
-var goal_str = ["", "Extreme Poverty Rate", "Literacy Rate (%)", "Wage Gap Between Men Earning and Women", "Child Mortality Per Year", "Maternal health", "Deaths from Malaria", "CO2 Emissions (Mil. Tons)", "Imports and Exports as Percent of GDP"]
+var goal_str = ["", "Share of Population living on $30 a day", "Literacy Rate (%)", "Wage Gap Between Men Earning and Women", "Child Mortality Per Year", "Maternal health", "Deaths from Malaria", "CO2 Emissions (Mil. Tons)", "Imports and Exports as Percent of GDP"]
 var goal_num = 2
 
 // Define Margin
