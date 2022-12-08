@@ -79,3 +79,19 @@ text {
 .countrysearch{
     position:relative;
 }
+
+.y-axis-label {
+    text-align: left;
+}
+
+body > p {
+    text-align: center;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+.credits {
+    text-align: center;
+    background-color: lightgray;
+    width: 100%; 
+    margin-top: 5%;
+}

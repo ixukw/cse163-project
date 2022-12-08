@@ -13,7 +13,21 @@ var goal_str = ["",
                 "Deaths from Malaria",
                 "CO2 Emissions (Mil. Tons)",
                 "Imports and Exports as Percent of GDP"]
+var goal_desc = ["",
+                 "test",
+                 "",
+                 "",
+                 "",
+                 "",
+                 "",
+                 "",
+                 "test"
+]
 var goal_num = 2
+var region_selected = 'ALL';
+
+// Define svg for later
+var svg;
 
 // Define Margin
 var margin = { top: 20, right: 20, bottom: 20, left: 64},
@@ -29,8 +43,8 @@ var xScale = d3.scaleLinear().domain([0, maxGDP]).range([0, width]),
 
 // Define X-Y Axis
 
-var xAxis = d3.axisBottom(xScale);//d3.svg.axis().scale(xScale).orient("bottom");
-var yAxis = d3.axisLeft(yScale);//d3.svg.axis().scale(yScale).orient("left");
+var xAxis = d3.axisBottom(xScale);
+var yAxis = d3.axisLeft(yScale);
 
 // Define  Color
 var color = d3.scaleOrdinal(d3.schemeCategory10);
@@ -49,16 +63,27 @@ window.onload = function() {
     });
     
     function changeGoal(event) {
+        svg.interrupt();
         d3.select("div.svg").selectAll("*").remove();
         selection = event.currentTarget.id;
         goal_num = event.currentTarget.id;
         drawSVG(event.currentTarget.id);
     }
+    
+    var regionSelect = document.getElementById("regionselect");
+    regionSelect.addEventListener('change', function(ele) {
+        console.log(ele);
+        region_selected = regionSelect.value;
+        svg.interrupt();
+        d3.select("div.svg").selectAll("*").remove();
+        drawSVG(selection);
+    });
 }
 
 // search function by text box
-var searchCode = "ALL"
-var selection = "2"
+var searchCode = "ALL";
+var selection = "2";
+
 function search(){
     searchCode = document.getElementById("searchBox").value;
     if(searchCode == ""){
@@ -68,9 +93,12 @@ function search(){
     
     // draw
     console.log(selection)
+    svg.interrupt();
     d3.select("div.svg").selectAll("*").remove();
     drawSVG(selection);
 }
+
+var selectedRegions = [];
 
 // Parse data
 var data = [];
@@ -86,7 +114,8 @@ Promise.all([
     d3.csv('poverty-share-on-less-than-30-per-day-2011-ppp.csv'),
     d3.csv('annual-co2-emissions-per-country.csv'),
     d3.csv('trade-openness.csv'),
-    d3.csv('share-deaths-aids.csv')
+    d3.csv('share-deaths-aids.csv'),
+    d3.csv('gender-wage-gap-oecd.csv')
 ]).then(function(files) {
     var index;
     files.forEach((csv,i) => {
@@ -128,7 +157,7 @@ Promise.all([
 
 function drawSVG(goal_to_draw) {
     // Define SVG
-    var svg = d3.select("div.svg").append("svg")
+    svg = d3.select("div.svg").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
        .append("g")
@@ -171,7 +200,7 @@ function drawSVG(goal_to_draw) {
     svg.append("text").attr("x", 770).attr("y", 180).text("Europe").style("font-size", "15px").attr("alignment-baseline","middle")
     svg.append("text").attr("x", 770).attr("y", 210).text("Africa").style("font-size", "15px").attr("alignment-baseline","middle")
     svg.append("text").attr("x", 770).attr("y", 240).text("South America").style("font-size", "15px").attr("alignment-baseline","middle")
-    svg.append("text").attr("x", 770).attr("y", 270).text("Australia").style("font-size", "15px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", 770).attr("y", 270).text("Oceania").style("font-size", "15px").attr("alignment-baseline","middle")
     svg.append("text").attr("x", 770).attr("y", 300).text("North America").style("font-size", "15px").attr("alignment-baseline","middle")
 
     
@@ -208,7 +237,7 @@ function drawSVG(goal_to_draw) {
 
     function draw(nations, goal_id) {
         // choose right stat from the goal
-        var stat_names = ['below_poverty_line','literacy_rate','Gender_Pay_Gap','deaths_under_five','maternal_deaths','malaria_deaths','annual_co2_emissions','trade_openness'];
+        var stat_names = ['below_poverty_line','literacy_rate','gender_wage_gap','deaths_under_five','maternal_deaths','malaria_deaths','annual_co2_emissions','trade_openness'];
         var stat = stat_names[goal_id-1];
         
         // Bisector - See API Reference > Core > Arrays. Look for d3.bisector
@@ -232,6 +261,13 @@ function drawSVG(goal_to_draw) {
             .enter().append("circle")
             .attr("class", "dot")
             .style("opacity", function(d){
+                if (region_selected != "ALL") {
+                    if (d.region[0][1] == region_selected) {
+                        return 1;
+                    } else {
+                        return 0.1;
+                    }
+                }
                 if(searchCode == d.country){
                     return 1;
                 }
@@ -247,6 +283,11 @@ function drawSVG(goal_to_draw) {
             })
 
             .on("mouseover", function (d) {
+                if (region_selected != "ALL") {
+                    if (d.region[0][1] != region_selected) {
+                        return tooltip.style("visibility", "hidden");
+                    }
+                }
                 tooltip.html(`<strong><p>${d.country}</p></strong>
                             <strong>Population:</strong> ${d.population.toLocaleString()}<br>
                             <strong>${goal_str[goal_id]}:</strong> ${parseFloat(d[stat]).toLocaleString(undefined, {maximumFractionDigits:2})}<br>
@@ -255,6 +296,11 @@ function drawSVG(goal_to_draw) {
                 return tooltip.style("visibility", "visible");
             })
             .on("mousemove", function (d) {
+                if (region_selected != "ALL") {
+                    if (d.region[0][1] != region_selected) {
+                        return tooltip.style("visibility", "hidden");
+                    }
+                }
                 tooltip.html(`<strong><p>${d.country}</p></strong>
                             <strong>Population:</strong> ${d.population.toLocaleString()}<br>
                             <strong>${goal_str[goal_id]}:</strong> ${parseFloat(d[stat]).toLocaleString(undefined, {maximumFractionDigits:2})}<br>
@@ -277,7 +323,7 @@ function drawSVG(goal_to_draw) {
             .duration(10000)
             .ease(d3.easeLinear)
             .tween("year", tweenYear)
-            //.each("end", enableInteraction);
+            //.on("end", enableInteraction);
 
         function position(dot) {
             dot.attr("cx", function (d) { return xScale(d.gdp); })
@@ -304,16 +350,17 @@ function drawSVG(goal_to_draw) {
                     } else {
                         ans = Math.log10(d.population);
                     }
-                    return ans })
-                }
+                    return ans;
+            })
+        }
 
         function order(a, b) {
             return b.population - a.population;
         }
-        /*
-        function enableInteraction() {
-            var yearScale = d3.scale.linear()
-                .domain([2006, 2010])
+        
+        /*function enableInteraction() {
+            var yearScale = d3.scaleLinear()
+                .domain([start_year, end_year])
                 .range([box.x + 10, box.x + box.width - 10])
                 .clamp(true);
 
@@ -363,6 +410,7 @@ function drawSVG(goal_to_draw) {
                     trade_openness: d.trade_openness ? interpolateValues(d.trade_openness, year) : -9999,
                     annual_co2_emissions: d.annual_co2_emissions ? interpolateValues(d.annual_co2_emissions, year) : -9999,
                     hiv_aids_deaths: d.hiv_aids_deaths ? interpolateValues(d.hiv_aids_deaths, year) : -9999,
+                    gender_wage_gap: d.gender_wage_gap ? interpolateValues(d.gender_wage_gap, year) : -9999,
                     gdp: interpolateValues(d.gdp, year),
                 };
             });

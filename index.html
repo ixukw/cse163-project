@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <!-- Meta Tag -->
     <meta charset="utf-8">
@@ -10,64 +9,102 @@
     <!-- D3.js Source -->
     <script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
 </head>
-
 <body>
     <h2>Progress toward United Nations Millennium Goals</h2>
     <p>The United Nations Millennium Development Goals (MDGs) is an action plan unanimously adopted by 189 countries who signed the UN Millennium Declaration at the UN Summit in September 2000, which aims to reduce the global poverty level by half (based on the 1990 level) by 2015. It is divided into 8 items.</p>
+    
+    <div class="y-axis-label"></div>
     <div class="content">
         <div class="svg"></div>
         <script type="text/javascript" src="script.js"></script>
-        <div id="buttons">
+        <div>
+            <div id="buttons"></div>
+            <div style="margin: 5px;">
+                <select id="regionselect">
+                    <option value="ALL">All Regions</option>
+                    <option value="Asia">Asia</option>
+                    <option value="Europe">Europe</option>
+                    <option value="Africa">Africa</option>
+                    <option value="South America">South America</option>
+                    <option value="Oceania">Oceania</option>
+                    <option value="North America">North America</option>
+                </select>
+            </div>
+            <div id="countrysearch" class="countrysearch" style="margin: 5px;">
+                <br>
+                <p style="display:inline">Highlight(Country Name)</p>
+                <input type="text" id="searchBox" size=5 value="ALL">
+                <input type="button" value="search" onclick="search()">
+            <br>
+        </div>
         </div>
     </div>
-    <div class="countrysearch">
-        <br>
-        <p style="display:inline">Highlight(Country Name)</p>
-        <input type="text" id="searchBox" size=5 value="ALL">
-        <input type="button" value="search" onclick="search()">
-        <br>
-    </div>
+        
+        
 
-            <div class="credits" style="text-align:center; background-color: lightgray; width: 100%;">
-                <h4>Created By:</h4>
-                <p>
-                    Benjamin Risley (brisley@ucsc.edu)<br />
-                    Hengtian Huang (hhuan102@ucsc.edu)<br />
-                    Inan Xu (inxu@ucsc.edu)<br />
-                    Hyoga Murata (hymurata@ucsc.edu)<br />
-                    In collaboration with Professor Suresh K Lodha, Jacob Low, and Omkar Ghanekar
-                </p>
-                <p>
-                    GitHub Link: <a href="https://github.com/ixukw/cse163-project">Millenium Goals</a>
-                </p>
-                <p>
-                    Designed for: CSE 163: Data Programming for Visualization, Fall 2022
-                </p>
+    <div class="credits" style="">
+        <h4>Created By:</h4>
+        <p>
+            Benjamin Risley (brisley@ucsc.edu)<br />
+            Hengtian Huang (hhuan102@ucsc.edu)<br />
+            Inan Xu (inxu@ucsc.edu)<br />
+            Hyoga Murata (hymurata@ucsc.edu)<br />
+            In collaboration with Professor Suresh K Lodha, Jacob Low, and Omkar Ghanekar
+        </p>
+        <p>
+            GitHub Link: <a href="https://github.com/ixukw/cse163-project">Millennium Goals</a>
+        </p>
+        <p>
+            Designed for: CSE 163: Data Programming for Visualization, Fall 2022
+        </p>
 
-                <div class="row">
-                    <div class="column left">
-                        <b>Files Submitted</b>
-                        <p>index.html<br>stylesheet.css<br>script.js<br>README.md</p>
-                    </div>
-                    <div class="column middle1">
-                        <b>Data Sources</b>
-                        <p>
-                        </p>
-                    </div>
-                    <div class="column middle2">
-                        <b>Visualization sources</b>
-                        <p>
-
-                        </p>
-                    </div>
-                    <div class="column right">
-                        <b>Code Sources</b>
-                        <p>
-                            <a href="https://github.com/sureshlodha/Thota_California_Projects_2015/blob/master/MotionChart/index.html">Thota_California_Projects_2015</a>
-                        </p>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="column left">
+                <b>Files Submitted</b>
+                <p>
+                    index.html<br>stylesheet.css<br>script.js<br>README.md<br>
+                    population-since-1800.csv<br>
+                    gdp-per-capita-maddison-2020.csv<br>
+                    continents-according-to-our-world-in-data.csv<br>
+                    annual-co2-emissions-per-country.csv<br>
+                    gender-wage-gap-oecd.csv<br>
+                    cross-country-literacy-rates.csv<br>
+                    malaria-death-rates.csv<br>
+                    child-deaths-igme-data.csv<br>
+                    number-of-maternal-deaths.csv<br>
+                    poverty-share-on-less-than-30-per-day-2011-ppp.csv<br>
+                    trade-openness.csv
+                </p>
             </div>
+            <div class="column middle1">
+                <b>Data Sources</b>
+                <p>
+                    <a href="https://ourworldindata.org/world-population-growth">World Population Growth</a><br>
+                    <a href="https://ourworldindata.org/grapher/gdp-per-capita-maddison-2020">GDP Per Capita</a><br>
+                    <a href="https://ourworldindata.org/grapher/continents-according-to-our-world-in-data">Continents According to Our World in Data</a><br>
+                    <a href="https://ourworldindata.org/co2-emissions">CO2 Emissions</a><br>
+                    <a href="https://ourworldindata.org/economic-inequality-by-gender">Gender Wage Gap</a><br>
+                    <a href="https://ourworldindata.org/literacy">Literacy Rates</a><br>
+                    <a href="https://ourworldindata.org/malaria">Malaria Death Rates</a><br>
+                    <a href="https://ourworldindata.org/child-mortality">Child Mortality</a><br>
+                    <a href="https://ourworldindata.org/maternal-mortality">Maternal Mortality</a><br>
+                    <a href="https://ourworldindata.org/poverty">Poverty Rates</a><br>
+                    <a href="https://ourworldindata.org/grapher/trade-openness">Trade Openness</a>
+                </p>
+            </div>
+            <div class="column middle2">
+                <b>Visualization sources</b>
+                <p>
+                    <a href="https://www.gapminder.org/tools/#$chart-type=bubbles&url=v1">Hans Rosling Visualization</a>
+                </p>
+            </div>
+            <div class="column right">
+                <b>Code Sources</b>
+                <p>
+                    <a href="https://github.com/sureshlodha/Thota_California_Projects_2015/blob/master/MotionChart/index.html">Thota_California_Projects_2015</a>
+                </p>
+            </div>
+        </div>
+    </div>
 </body>
-
 </html>
