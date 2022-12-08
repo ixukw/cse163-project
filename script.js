@@ -84,11 +84,8 @@ window.onload = function() {
 var searchCode = "ALL";
 var selection = "2";
 
-function search(){
-    searchCode = document.getElementById("searchBox").value;
-    if(searchCode == ""){
-        searchCode = "ALL";
-    }
+function search(country){
+    searchCode = country;//document.getElementById("searchBox").value;
     console.log(searchCode)
     
     // draw
@@ -152,6 +149,14 @@ Promise.all([
     });
 
     console.log(data);
+    
+    d3.select("#countrysearch").selectAll("options").data(data).enter()
+        .append("option")
+        .text(function (d) { return d.country; })
+        .attr("value", function (d) { return d.country; })
+    d3.select("#countrysearch").on("change", function (d) {
+        search(d3.select(this).property("value"));
+    })
     drawSVG(2);
 });
 
@@ -264,7 +269,7 @@ function drawSVG(goal_to_draw) {
                 if (region_selected != "ALL") {
                     if (d.region[0][1] == region_selected) {
                         return 1;
-                    } else {
+                    } else if (searchCode == "ALL") {
                         return 0.1;
                     }
                 }
@@ -274,7 +279,7 @@ function drawSVG(goal_to_draw) {
                 else if(searchCode == "ALL"){
                     return 1;
                 }
-                else{
+                else {
                     return 0.1;
                 }
             })
@@ -284,7 +289,7 @@ function drawSVG(goal_to_draw) {
 
             .on("mouseover", function (d) {
                 if (region_selected != "ALL") {
-                    if (d.region[0][1] != region_selected) {
+                    if (d.region[0][1] != region_selected && searchCode != d.country) {
                         return tooltip.style("visibility", "hidden");
                     }
                 }
@@ -297,7 +302,7 @@ function drawSVG(goal_to_draw) {
             })
             .on("mousemove", function (d) {
                 if (region_selected != "ALL") {
-                    if (d.region[0][1] != region_selected) {
+                    if (d.region[0][1] != region_selected && searchCode != d.country) {
                         return tooltip.style("visibility", "hidden");
                     }
                 }
