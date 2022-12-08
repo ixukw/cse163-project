@@ -4,7 +4,15 @@ var start_year = 1950;
 var end_year = 2015;
 
 // Y-Axis values
-var goal_str = ["", "Share of Population living on $30 a day", "Literacy Rate (%)", "Wage Gap Between Men Earning and Women", "Child Mortality Per Year", "Maternal health", "Deaths from Malaria", "CO2 Emissions (Mil. Tons)", "Imports and Exports as Percent of GDP"]
+var goal_str = ["", 
+                "Share of Population living on $30 a day",
+                "Literacy Rate (%)",
+                "Wage Gap Between Men Earning and Women",
+                "Child Mortality Per Year",
+                "Maternal health",
+                "Deaths from Malaria",
+                "CO2 Emissions (Mil. Tons)",
+                "Imports and Exports as Percent of GDP"]
 var goal_num = 2
 
 // Define Margin
@@ -73,7 +81,12 @@ Promise.all([
     d3.csv('cross-country-literacy-rates.csv'),
     d3.csv('child-deaths-igme-data.csv'),
     d3.csv('malaria-death-rates.csv'),
-    d3.csv('continents-according-to-our-world-in-data.csv')
+    d3.csv('continents-according-to-our-world-in-data.csv'),
+    d3.csv('number-of-maternal-deaths.csv'),
+    d3.csv('poverty-share-on-less-than-30-per-day-2011-ppp.csv'),
+    d3.csv('annual-co2-emissions-per-country.csv'),
+    d3.csv('trade-openness.csv'),
+    d3.csv('share-deaths-aids.csv')
 ]).then(function(files) {
     var index;
     files.forEach((csv,i) => {
@@ -138,7 +151,7 @@ function drawSVG(goal_to_draw) {
         .attr("text-anchor", "end")
         .attr("x", width)
         .attr("y", height - 6)
-        .text("GDP");
+        .text("GDP per capita (int. $)");
 
     // Add Y-Axis label.
     svg.append("text")
@@ -154,8 +167,8 @@ function drawSVG(goal_to_draw) {
     svg.append("circle").attr("cx",750).attr("cy",240).attr("r", 6).style("fill", d3.schemeCategory10[3])
     svg.append("circle").attr("cx",750).attr("cy",270).attr("r", 6).style("fill", d3.schemeCategory10[4])
     svg.append("circle").attr("cx",750).attr("cy",300).attr("r", 6).style("fill", d3.schemeCategory10[5])
-svg.append("text").attr("x", 770).attr("y", 150).text("Asia").style("font-size", "15px").attr("alignment-baseline","middle")
-svg.append("text").attr("x", 770).attr("y", 180).text("Europe").style("font-size", "15px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", 770).attr("y", 150).text("Asia").style("font-size", "15px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", 770).attr("y", 180).text("Europe").style("font-size", "15px").attr("alignment-baseline","middle")
     svg.append("text").attr("x", 770).attr("y", 210).text("Africa").style("font-size", "15px").attr("alignment-baseline","middle")
     svg.append("text").attr("x", 770).attr("y", 240).text("South America").style("font-size", "15px").attr("alignment-baseline","middle")
     svg.append("text").attr("x", 770).attr("y", 270).text("Australia").style("font-size", "15px").attr("alignment-baseline","middle")
@@ -171,11 +184,11 @@ svg.append("text").attr("x", 770).attr("y", 180).text("Europe").style("font-size
         .attr("x", width)
         .text(start_year);
 
-    var country = svg.append("text")
+    /*var country = svg.append("text")
         .attr("class", "country")
         .attr("y", height - margin.bottom)
         .attr("x", margin.left)
-        .text("");
+        .text("");*/
     
     draw(data, goal_to_draw);
     
@@ -195,25 +208,25 @@ svg.append("text").attr("x", 770).attr("y", 180).text("Europe").style("font-size
 
     function draw(nations, goal_id) {
         // choose right stat from the goal
-        var stat_names = ['','literacy_rate','Gender_Pay_Gap','deaths_under_five','','malaria_deaths\year','',''];
+        var stat_names = ['below_poverty_line','literacy_rate','Gender_Pay_Gap','deaths_under_five','maternal_deaths','malaria_deaths','annual_co2_emissions','trade_openness'];
         var stat = stat_names[goal_id-1];
+        
         // Bisector - See API Reference > Core > Arrays. Look for d3.bisector
         var bisect = d3.bisector(function (d) {
             return d[0];
         }); 
         
-        // Resets scale
+        // Resets x and y scales
         updateX(50000);
         updateY(104);
         
-        // Tooltip
-
+        // Define Tooltip
         var tooltip = d3.select("body")
             .append("div")
             .style("position", "absolute")
             .style("visibility", "hidden");
 
-        // Define Dot(circle to represet data)
+        // Define Dot (circle to represent data)
         var dot = svg.selectAll(".dot")
             .data(interpolateData(start_year))
             .enter().append("circle")
@@ -234,12 +247,18 @@ svg.append("text").attr("x", 770).attr("y", 180).text("Europe").style("font-size
             })
 
             .on("mouseover", function (d) {
-                tooltip.html(`<strong>Country:</strong> ${d.country}<br><strong>Population:</strong> ${d.population.toLocaleString()}<br><strong>${stat}:</strong> ${d[stat]}<br><strong>GDP:</strong> ${d.gdp}`);
+                tooltip.html(`<strong><p>${d.country}</p></strong>
+                            <strong>Population:</strong> ${d.population.toLocaleString()}<br>
+                            <strong>${goal_str[goal_id]}:</strong> ${parseFloat(d[stat]).toLocaleString(undefined, {maximumFractionDigits:2})}<br>
+                            <strong>GDP per Capita:</strong> ${d.gdp.toLocaleString()}`);
                 tooltip.attr('class', 'd3-tip');
                 return tooltip.style("visibility", "visible");
             })
             .on("mousemove", function (d) {
-                tooltip.html(`<strong>Country:</strong> ${d.country}<br><strong>Population:</strong> ${d.population.toLocaleString()}<br><strong>${stat}:</strong> ${d[stat]}`);
+                tooltip.html(`<strong><p>${d.country}</p></strong>
+                            <strong>Population:</strong> ${d.population.toLocaleString()}<br>
+                            <strong>${goal_str[goal_id]}:</strong> ${parseFloat(d[stat]).toLocaleString(undefined, {maximumFractionDigits:2})}<br>
+                            <strong>GDP per Capita:</strong> ${d.gdp.toLocaleString()}`);
                 return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
             })
             .on("mouseout", function (d) {
@@ -319,28 +338,32 @@ svg.append("text").attr("x", 770).attr("y", 180).text("Europe").style("font-size
         function tweenYear() {
             var year = d3.interpolateNumber(start_year, end_year);
             return function (t) {
-                //console.log(year(t))
                 displayYear(year(t));
             };
         }
 
         function displayYear(year) {
-            //console.log(interpolateData(year))
             dot.data(interpolateData(year), function(d) { return d.country; }).call(position).sort(order);
             label.text(Math.round(year));
         }
 
+        // Interpolate the missing data for smooth transition
         function interpolateData(year) {
             return nations.map(function (d) {
                 return {
                     country: d.country,
                     region: d.Continent,
                     population: d.population ? interpolateValues(d.population, year) : 0,
-                    literacy_rate: d.literacy_rate ? interpolateValues(d.literacy_rate, year) : 0,
-                    malaria_deaths: d.malaria_deaths ? interpolateValues(d.malaria_deaths, year) : 0,
-                    deaths_under_five: d.deaths_under_five ? interpolateValues(d.deaths_under_five, year) : 0,
+                    literacy_rate: d.literacy_rate ? interpolateValues(d.literacy_rate, year) : -9999,
+                    malaria_deaths: d.malaria_deaths ? interpolateValues(d.malaria_deaths, year) : -9999,
+                    deaths_under_five: d.deaths_under_five ? interpolateValues(d.deaths_under_five, year) : -9999,
+                    maternal_deaths: d.maternal_deaths ? interpolateValues(d.maternal_deaths, year) : -9999,
+                    below_poverty_line: d.below_poverty_line ? interpolateValues(d.below_poverty_line, year) : -9999,
+                    gender_wage_gap: d.gender_wage_gap ? interpolateValues(d.gender_wage_gap, year) : -9999,
+                    trade_openness: d.trade_openness ? interpolateValues(d.trade_openness, year) : -9999,
+                    annual_co2_emissions: d.annual_co2_emissions ? interpolateValues(d.annual_co2_emissions, year) : -9999,
+                    hiv_aids_deaths: d.hiv_aids_deaths ? interpolateValues(d.hiv_aids_deaths, year) : -9999,
                     gdp: interpolateValues(d.gdp, year),
-                    
                 };
             });
         }
