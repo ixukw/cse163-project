@@ -95,3 +95,8 @@ body > p {
     width: 100%; 
     margin-top: 5%;
 }
+
+.intro{
+    width: 900px;
+    margin: 0 auto;
+}

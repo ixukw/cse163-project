@@ -3,6 +3,9 @@
 var start_year = 1950;
 var end_year = 2015;
 
+var curr_year = start_year;
+var curr_max = 0;
+
 // Y-Axis values
 var goal_str = ["", 
                 "Share of Population living on $30 a day",
@@ -260,6 +263,7 @@ function drawSVG(goal_to_draw) {
         // Resets x and y scales
         updateX(50000);
         updateY(104);
+        curr_max = 0;
         
         // Define Tooltip
         var tooltip = d3.select("body")
@@ -344,9 +348,13 @@ function drawSVG(goal_to_draw) {
                     if (d[stat] > maxYScale){
                         updateY(d[stat]);
                     }
+                    if(d[stat] > curr_max){
+                        curr_max = d[stat];
+                    }
                     if (d.gdp > maxGDP){
                         updateX(d.gdp);
                     }
+                    
                     var ans = 0;
                     if(d.population > 300000000){
                         ans = Math.log2(d.population);
