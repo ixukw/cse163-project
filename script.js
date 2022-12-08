@@ -7,21 +7,21 @@ var end_year = 2015;
 var goal_str = ["", 
                 "Share of Population living on $30 a day",
                 "Literacy Rate (%)",
-                "Wage Gap Between Men Earning and Women",
+                "Wage Gap Between Men Earning and Women (%)",
                 "Child Mortality Per Year",
-                "Maternal health",
-                "Deaths from Malaria",
+                "Maternal Deaths Per Year",
+                "Deaths from Malaria Per Year",
                 "CO2 Emissions (Mil. Tons)",
-                "Imports and Exports as Percent of GDP"]
+                "Imports and Exports as % of GDP"]
 var goal_desc = ["",
-                 "test",
-                 "",
-                 "",
-                 "",
-                 "",
-                 "",
-                 "",
-                 "test"
+                 "Goal: Decrease the number of people living in poverty",
+                 "Goal: Increase the Litearcy Rate",
+                 "Goal: Decrease that Gap between Men and Women",
+                 "Goal: Reduce Child Mortality",
+                 "Goal: Decrease Maternal Deaths",
+                 "Goal: Decrease Malaria Deaths",
+                 "Goal: Reduce C02 Emissions",
+                 "Goal: Increase Trade between Nations",
 ]
 var goal_num = 2
 var region_selected = 'ALL';
@@ -30,7 +30,7 @@ var region_selected = 'ALL';
 var svg;
 
 // Define Margin
-var margin = { top: 20, right: 20, bottom: 20, left: 64},
+var margin = { top: 20, right: 20, bottom: 45, left: 74},
     width = 960 - margin.right - margin.left,
     height = 500 - margin.top - margin.bottom;
 
@@ -192,7 +192,14 @@ function drawSVG(goal_to_draw) {
         .attr("class", "y label")
         .attr("y", -3)
         .style("font", "24px times")
-        .text("Goal: " + goal_str[goal_num]);
+        .text(goal_str[goal_num]);
+    // Add Goal Label
+    svg.append("text")
+        .attr("class", "goal label")
+        .attr("x", 0)
+        .attr("y", height + 40)
+        .style("font", "24px times")
+        .text(goal_desc[goal_num]);
     
     //add legends
     svg.append("circle").attr("cx",750).attr("cy",150).attr("r", 6).style("fill", d3.schemeCategory10[0])
@@ -325,7 +332,7 @@ function drawSVG(goal_to_draw) {
             .attr("height", box.height);
 
         svg.transition()
-            .duration(10000)
+            .duration(15000)
             .ease(d3.easeLinear)
             .tween("year", tweenYear)
             //.on("end", enableInteraction);
