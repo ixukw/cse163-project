@@ -8,25 +8,26 @@ var curr_max = 0;
 
 // Y-Axis values
 var goal_str = ["", 
-                "Share of Population living on $30 a day",
-                "Literacy Rate (%)",
-                "Wage Gap Between Men Earning and Women (%)",
-                "Child Mortality Per Year",
-                "Maternal Deaths Per Year",
-                "Deaths from Malaria Per Year",
-                "CO2 Emissions (Mil. Tons)",
+                "% of Population living on $30/day",
+                "Literacy Rate (% of population)",
+                "Wage Gap Between Earning Men and Women (% difference)",
+                "Child Mortality (% of population)",
+                "Maternal Mortality (deaths per 100,000 births)",
+                "Deaths from Malaria (per 100,000 people)",
+                "CO2 Emissions Per Capita (Mil. Tons/Capita)",
                 "Imports and Exports as % of GDP"]
 var goal_desc = ["",
                  "Goal: Decrease the number of people living in poverty",
-                 "Goal: Increase the Litearcy Rate",
+                 "Goal: Increase the Literacy Rate",
                  "Goal: Decrease that Gap between Men and Women",
-                 "Goal: Reduce Child Mortality",
+                 "Goal: Decrease Child Mortality",
                  "Goal: Decrease Maternal Deaths",
                  "Goal: Decrease Malaria Deaths",
-                 "Goal: Reduce C02 Emissions",
+                 "Goal: Decrease CO2 Emissions",
                  "Goal: Increase Trade between Nations",
 ]
-var goal_num = 2
+var initial_scale = [104, 104, 104, 104, 50, 104, 104, 40, 300];
+var goal_num = 2;
 var region_selected = 'ALL';
 
 // Define svg for later
@@ -107,12 +108,12 @@ Promise.all([
     d3.csv('gdp-per-capita-maddison-2020.csv'),
     d3.csv('population-since-1800.csv'),
     d3.csv('cross-country-literacy-rates.csv'),
-    d3.csv('child-deaths-igme-data.csv'),
+    d3.csv('child-mortality-igme.csv'),
     d3.csv('malaria-death-rates.csv'),
     d3.csv('continents-according-to-our-world-in-data.csv'),
-    d3.csv('number-of-maternal-deaths.csv'),
+    d3.csv('maternal-mortality.csv'),
     d3.csv('poverty-share-on-less-than-30-per-day-2011-ppp.csv'),
-    d3.csv('annual-co2-emissions-per-country.csv'),
+    d3.csv('co-emissions-per-capita.csv'),
     d3.csv('trade-openness.csv'),
     d3.csv('share-deaths-aids.csv'),
     d3.csv('gender-wage-gap-oecd.csv')
@@ -262,7 +263,7 @@ function drawSVG(goal_to_draw) {
         
         // Resets x and y scales
         updateX(50000);
-        updateY(104);
+        updateY(initial_scale[goal_id]);
         curr_max = 0;
         
         // Define Tooltip
@@ -306,9 +307,11 @@ function drawSVG(goal_to_draw) {
                 }
                 tooltip.html(`<strong><p>${d.country}</p></strong>
                             <strong>Population:</strong> ${d.population.toLocaleString()}<br>
-                            <strong>${goal_str[goal_id]}:</strong> ${parseFloat(d[stat]).toLocaleString(undefined, {maximumFractionDigits:2})}<br>
-                            <strong>GDP per Capita:</strong> ${d.gdp.toLocaleString()}`);
-                tooltip.attr('class', 'd3-tip');
+                            <strong>GDP per Capita:</strong> ${d.gdp.toLocaleString()}<br><br>
+                            <strong>${goal_str[goal_id]}:</strong> ${parseFloat(d[stat]).toLocaleString(undefined, {maximumFractionDigits:2})}
+                            `);
+                tooltip.attr('class', `d3-tip tooltip-${d.region[0][1]}`);
+                console.log(`tooltip-${d.region[0][1]}`);
                 return tooltip.style("visibility", "visible");
             })
             .on("mousemove", function (d) {
@@ -319,8 +322,9 @@ function drawSVG(goal_to_draw) {
                 }
                 tooltip.html(`<strong><p>${d.country}</p></strong>
                             <strong>Population:</strong> ${d.population.toLocaleString()}<br>
+                            <strong>GDP per Capita:</strong> ${d.gdp.toLocaleString()}<br><br>
                             <strong>${goal_str[goal_id]}:</strong> ${parseFloat(d[stat]).toLocaleString(undefined, {maximumFractionDigits:2})}<br>
-                            <strong>GDP per Capita:</strong> ${d.gdp.toLocaleString()}`);
+                            `);
                 return tooltip.style("top", (d3.event.pageY - 10) + "px").style("left", (d3.event.pageX + 10) + "px");
             })
             .on("mouseout", function (d) {
